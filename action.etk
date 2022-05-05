@@ -1,0 +1,60 @@
+# Read the calldata into memory.
+calldatasize		# [calldatasize]
+push1 0			    # [0, calldatasize]
+dup1			    # [0, 0, calldatasize]
+calldatacopy		# []
+
+# Extract only the function selector
+push1 0			# [0]
+mload			# [dirty_selector]
+
+# Jump to the coresponding function.
+dup1			# [selector, selector]
+push4 selector("doRevert()")
+eq
+push4 do_revert
+jumpi
+
+dup1
+push4 selector("doStore()")
+eq
+push4 do_store
+jumpi
+
+dup1
+push4 selector("doLoad()")
+eq
+push4 do_load
+jumpi
+
+push1 0
+push1 0
+revert
+
+do_revert:
+	jumpdest
+    %push(0xff)
+    %push(0)
+    tstore
+	%push(0)
+	%push(0)
+	revert
+
+do_store:
+	jumpdest
+    %push(0xaa)
+    %push(0)
+    tstore
+	%push(0)
+	%push(0)
+	return
+
+do_load:
+	jumpdest
+    %push(0)
+    tload
+	%push(0)
+    mstore
+    %push(32)
+    %push(0)
+	return

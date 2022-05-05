@@ -1,0 +1,28 @@
+calldatasize		# [calldatasize]
+%push(0)
+eq
+push4 do_tload
+jumpi
+
+%push(1)
+push4 do_tstore
+jumpi
+
+do_tstore:
+    jumpdest
+    %push(0xff)
+    %push(0)
+    tstore
+    %push(0)
+    dup1
+    return
+
+do_tload:
+	jumpdest
+    %push(0)
+    tload
+	%push(0)
+    mstore
+    %push(32)
+    %push(0)
+	return

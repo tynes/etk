@@ -960,8 +960,10 @@ ops! {
     InvalidB0(mnemonic="invalid_b0", exit=true),
     InvalidB1(mnemonic="invalid_b1", exit=true),
     InvalidB2(mnemonic="invalid_b2", exit=true),
-    InvalidB3(mnemonic="invalid_b3", exit=true),
-    InvalidB4(mnemonic="invalid_b4", exit=true),
+
+    TLoad(mnemonic="tload", pops=1, pushes=1, memory=Access::Read),
+    TStore(mnemonic="tstore", pops=2, memory=Access::Write),
+
     InvalidB5(mnemonic="invalid_b5", exit=true),
     InvalidB6(mnemonic="invalid_b6", exit=true),
     InvalidB7(mnemonic="invalid_b7", exit=true),

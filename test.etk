@@ -1,0 +1,25 @@
+
+%macro simple_call(addr, data)
+    push4 $data
+    push1 0
+    mstore
+    push1 32               # ret length
+    push1 0                # ret offset
+    push1 32               # args length
+    push1 0                # args offset
+    push1 0                # value
+    push32 $addr
+    push2 0xffff           # gas
+    call
+%end
+
+%simple_call(0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8, selector("doStore()"))
+%simple_call(0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8, selector("doRevert()"))
+%simple_call(0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8, selector("doLoad()"))
+calldatasize		# [calldatasize]
+push1 0			    # [0, calldatasize]
+dup1			    # [0, 0, calldatasize]
+calldatacopy		# []
+%push(32)
+%push(0)
+return
